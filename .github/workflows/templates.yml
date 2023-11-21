@@ -1,0 +1,91 @@
+name: base
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  commitlint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install commitlint
+        run: npm install -g @commitlint/cli @commitlint/config-conventional
+
+      - name: Run commitlint
+        run: commitlint --from ${{ github.event.before }} --to ${{ github.sha }}
+
+  build-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: npm install  # Assuming this is where you install dependencies
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Run Tests
+        run: npm test  # Assuming this is where you run your tests
+
+  diff:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Check Code Differences
+        run: git diff --name-only ${{ github.event.before }} ${{ github.sha }}
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Build Project
+        run: npm build  # Assuming this is where you build your project
+
+  endpoint-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Include Additional Steps
+        include: ./path/to/additional_steps.yml  # Specify the correct path to your file
+
+      # Add steps for endpoint deployment
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Include Additional Steps
+        include: ./path/to/additional_steps.yml  # Specify the correct path to your file
+
+      # Add steps for deployment
+
+# Define the stages
+stages:
+  - commitlint
+  - build-dependencies
+  - test
+  - diff
+  - build
+  - endpoint-deployment
+  - deploy
