@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "{{ cookiecutter.project_slug }}"
+version = "{{ cookiecutter.version }}"
+description = "{{ cookiecutter.project_short_description }}"
+
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = "{{ '~' + cookiecutter.python_version }}"
+
+[tool.poetry.dev-dependencies]
+pytest = "*"
+isort = "*"
+black = "*"
+pylint = ">=2.14.4"
+codecov = ">=2.1.13"
+pytest-cov = "*"
+pytest-html = "*"
+mypy = "*"
+flake8-docstrings = ">=1.6.0"
+darglint = ">=1.8.1"
+
+# To add a private PyPI registry, uncomment the lines below and provide proper
+# name and url.
+#[[tool.poetry.source]]
+#name = "private"
+#url = "http://example.com/simple"
+
+[tool.black]
+# Note: this needs to be consistent with `FORMAT/max-line-length` in .pylintrc
+line-length = 120
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
